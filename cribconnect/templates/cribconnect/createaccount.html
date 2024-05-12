@@ -1,0 +1,44 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - CribConnect</title>
+    <link rel="stylesheet" href="{% static 'ccapp/createaccount.css' %}">
+    <script>
+        function validatePasswords() {
+          var password = document.getElementById("password").value;
+          var confirmPassword = document.getElementById("confirmPassword").value;
+      
+          if (password !== confirmPassword) {
+            alert("Passwords do not match. Please try again.");
+            return false;
+          }
+          else {
+            alert("Account Successfully Created");
+            return true;
+          }
+        }
+          
+      </script>
+</head>
+<body>
+    <div class="account-container">
+        <div class="account-header">
+            <img src="{% static 'images/cribconnect.png' %}" alt="CribConnect Logo"> <!-- Replace with your logo's file path -->
+            <h2>Create Account</h2>
+        </div>
+        <form class="account-form" method="post" onSubmit="return validatePasswords()" autocomplete="off">
+            {% csrf_token %}
+            {{ registerform.as_p }}
+            <input type="hidden" name="alert" value="alert">
+            <button type="submit" class="submit-button">Submit</button>
+        </form>
+        <a href="http://localhost:8000/cribconnect/guest">
+            go back
+        </a>
+    </div>
+</body>
+</html>

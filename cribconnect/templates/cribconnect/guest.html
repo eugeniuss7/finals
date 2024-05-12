@@ -1,0 +1,248 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage - CribConnect</title>
+    <link rel="stylesheet" href="{% static 'ccapp/index.css' %}">
+    <script>
+        function showLogin(){
+                document.querySelector(".login-container").style.display = 'block';
+        };
+        function closeLogin(){
+            document.querySelector(".login-container").style.display = 'none';
+        };
+    </script>
+    <style>
+    .alert {
+    padding: 20px;
+    background-color: aliceblue;
+    border-radius: 10px;
+    color: black;
+    margin-bottom: 15px;
+    position: absolute;
+    margin-left: 220px;
+    transform: translateX(200%);
+    font-size: bold;
+    }
+    .closebtn {
+    margin-left: 15px;
+    color: black;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    }
+    .closebtn:hover {
+        color: gray;
+    }
+    
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="#"><img src="{% static 'images/cribconnect.png' %}" alt="Logo">CribConnect</a>
+            <div class="search-container" style="margin-left: 70px">
+                <input type="search" placeholder="Search">
+                <button type="click">Search</button>
+            </div>
+        </div>
+        {% if messages %}
+        {% for message in messages %}
+            {% if message == "Invalid credentials, please try again." %}
+            <div class="alert" style="background-color: red; color: white;">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ message }}
+            </div>
+            {% else %}
+            <div class="alert">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ message }}
+            </div>
+            {% endif %}
+        {% endfor %}
+        {% endif %}
+        <nav>
+            <ul class="nav-list">
+                <li><a href="#">CribShare</a></li>
+                <li><a href="{% url 'propertylisting' %}">List your Property</a></li>
+                <li><a href="#">Features</a></li>
+                <li><a href="#">How it works</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact Us</a></li>
+                <div class="login-button">
+                    <button type="button" onclick="showLogin()">
+                        <img src="{% static 'images/accounticon.png' %}" height="25px" width="25px" style="padding-inline-end: 5px; display: flex;">Login
+                    </button>
+                </div>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        
+        <div class="login-container">
+            <div class="logo-container">
+                    <div class="logo">
+                        <a><img class="login-logo" src="{% static 'images/cribconnect.png' %}">CribConnect</a>
+                        <button type="button" class="close" onclick="closeLogin()">X</button>
+                    </div>
+                </div>
+            <form action="{% url 'guest' %}" method="post">
+                {% csrf_token %}
+                <div class="container">
+                    <div>
+                        <label for="uname"><b>Username:</b></label>
+                        <input type="text" placeholder="Enter Username" name="username" id ="username" required>
+                    </div>
+                    <div>
+                        <label for="psw"><b>Password:</b></label>
+                        <input type="password" placeholder="Enter Password" name="password" id="password" required>
+                    </div>
+              
+                  <button type="submit" class="loginbtn" style="cursor: pointer;" value="Login">Login</button>
+                  <label>
+                    <input type="checkbox" checked="checked" name="remember"> Remember me
+                  </label>
+                </div>
+                <div>
+                    <span class="psw"><a href="#" style="margin: 20px; font-size: small;">Forgot password?</a></span>
+                </div>
+                <div>
+                    <a href="{% url 'createaccount' %}">
+                    <button type="button" class="createbtn" style="cursor: pointer;">Create Account</button>
+                    </a>
+                </div>
+              </form>
+        </div>
+        <section class="featured-listings">
+            <a href="#" class="caption" >Featured Listings</a>
+            <!-- Placeholder for featured listing image -->
+            <a href="#">
+            <img src="{% static 'images/mansion-interior.jpg' %}" alt="Featured Listing">
+            </a>
+            <!-- Carousel indicators -->
+                <ul class="carousel-indicators">
+                    <li class="active"></li>
+                    <li class="active"></li>
+                    <li class="active"></li>
+                    <li class="active"></li>
+                    <li class="active"></li>
+                    <!-- Other indicators -->
+                </ul>        
+        </section>
+    </main>
+    
+    <div class="container">
+        <div class="listings">
+            <!-- Repeat this block for each listing -->
+            {% for listing in listings %}
+            <div class="listing">
+                <a href="http://localhost:8000/cribconnect/listingpage/{{ listing.id }}">
+                    <img class="listimg" style="height: 470px;"   src="{{ listing.primaryImage.url }}">
+                    <div class="info">
+                        <p class="price" style="font-size: larger;">₱ {{ listing.price }}</p>
+                        <p class="city" style="color: white; font-size: medium;">{{ listing.address.municipality }}</p>
+                        <p class="details">{{ listing.description }}</p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+            <!-- ... more listings ... -->
+        </div>
+        <div class="view-all">
+            <button>View all</button>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        <a href="#">&laquo; Previous</a>
+        <a href="#"class="active">1</a>
+        <a href="#">2</a>
+        <a href="#">3</a>
+        <a href="#">Next &raquo;</a>
+    </div>
+
+    <!-- Categories -->
+    <div class="category-title">Categories</div>
+    <div class="categories">
+        <div class="category">
+            <img src="{% static 'images/interior_category.jpg' %}" alt="Studio">
+            <div class="category-name">Category</div>
+        </div>
+        <!-- Repeat for each category -->
+        <div class="category">
+            <img src="{% static 'images/interior_category.jpg' %}" alt="Near Mall">
+            <div class="category-name">Category</div>
+        </div>
+        <div class="category">
+            <img src="{% static 'images/interior_category.jpg' %}" alt="Near Mall">
+            <div class="category-name">Category</div>
+        </div>
+        <div class="category">
+            <img src="{% static 'images/interior_category.jpg' %}" alt="Near Mall">
+            <div class="category-name">Category</div>
+        </div>
+        <div class="category">
+            <img src="{% static 'images/interior_category.jpg' %}" alt="Near Mall">
+            <div class="category-name">Category</div>
+        </div>
+        <div class="category">
+            <img src="{% static 'images/interior_category.jpg' %}" alt="Near Mall">
+            <div class="category-name">Category</div>
+        </div>
+        <div class="category">
+            <img src="{% static 'images/interior_category.jpg' %}" alt="Near Mall">
+            <div class="category-name">Category</div>
+        </div>
+        <div class="category">
+            <img src="{% static 'images/interior_category.jpg' %}" alt="Near Mall">
+            <div class="category-name">Category</div>
+        </div>
+    </div>
+</body>
+<footer>
+    <div class="footer-container">
+        <div class="footer-column">
+            <h3>ABOUT</h3>
+            <ul>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Careers</a></li>
+                <li><a href="#">Terms & Conditions</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>SERVICES</h3>
+            <ul>
+                <li><a href="#">CribShare</a></li>
+                <li><a href="#">List Your Property</a></li>
+                <li><a href="#">Features</a></li>
+                <li><a href="#">How it Works</a></li>
+                <li><a href="#">Contact Us</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>FOLLOW US</h3>
+            <ul>
+                <li><a href="#">Twitter</a></li>
+                <li><a href="#">Facebook</a></li>
+                <li><a href="#">YouTube</a></li>
+                <li><a href="#">Pinterest</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>OTHER</h3>
+            <ul>
+                <li><a href="#">Video Tutorial</a></li>
+                <li><a href="#">Vlogs & Ideas</a></li>
+            </ul>
+        </div>
+    </div>
+</footer>
+</html>

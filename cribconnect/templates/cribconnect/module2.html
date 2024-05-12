@@ -1,0 +1,369 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Profile - CribConnect</title>
+<link rel="stylesheet" href="{% static 'ccapp/module.css' %}">
+<script>
+    function showContent(content){
+        document.querySelectorAll('.container-content').forEach(div => {
+            div.style.display = 'none';
+        });
+        document.querySelector(`#${content}`).style.display = 'block';
+        
+    }
+    document.addEventListener('DOMContentLoaded', function(){
+        document.querySelectorAll('.nav-container button').forEach(button => {
+            button.onclick = function(){
+                showContent(this.dataset.content), activeButton(this.id)
+            }
+        });
+    });
+    function activeButton(activeBtn){
+        document.querySelectorAll('.nav-container button').forEach(button =>{
+            button.className = 'none';
+        });
+        document.querySelector(`#${activeBtn}`).className = "active";
+    }
+    function showRateForm(){
+            document.querySelector(".rating-container").style.display = 'block';
+        };
+    function closeRating(){
+            document.querySelector(".rating-container").style.display = 'none';
+        };
+    function showRateForm2(){
+            document.querySelector(".rating-container2").style.display = 'block';
+        };
+    function closeRating2(){
+            document.querySelector(".rating-container2").style.display = 'none';
+        };
+</script>
+<style>
+    [title~=star]{
+        color: goldenrod;
+    }
+    [title~=upload]{
+        border: solid white;
+        border-radius: 5px;
+        background-color: white;
+    }
+    [title~=nostar]{
+        color: white;
+    }
+    .closebtn {
+    margin-right: 15px;
+    color: black;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    }
+    .closebtn:hover {
+        color: white;
+    }
+</style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="/cribconnect/" style = "color: white;"><img src="{% static 'images/cribconnect.png' %}" alt="Logo">CribConnect</a>
+        </div>
+        <div class="logout-button">
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+    </header>
+    <main>
+        <div class="rating-container">
+            <div class="logo-container">
+                    <div class="logo">
+                        <a><img class="login-logo" src="{% static 'images/cribconnect.png' %}">Rating/Review</a>
+                        <button type="button" class="close" onclick="closeRating()">X</button>
+                    </div>
+                </div>
+            <form method="post">
+                {% csrf_token %}
+                <div class="container-r">
+                    <div style="margin-bottom: 10px;">
+                        <label for="rating"><b>Rating:</b></label>
+                        <input type="number" name="user-rating" id="user-rating" min="1" max="5" value="1"><span> star/s</span>
+                    </div>
+                    <label for="review"><b style="margin-top: 20px;">Review:</b></label>
+                    <div style="margin-top: 5px;">
+                        <textarea rows="4" cols="50" name="user-review" id="review" placeholder="Enter Your Review Message Here" style="object-position: bottom;"></textarea>
+                    </div>
+                  <button type="submit" class="rate-button" style="cursor: pointer; margin-top: 20px;">Submit</button>
+                </div>
+              </form>  
+            </div>
+        </div>
+        <div class="rating-container2">
+            <div class="logo-container">
+                    <div class="logo">
+                        <a><img class="login-logo" src="{% static 'images/cribconnect.png' %}">Rating/Review</a>
+                        <button type="button" class="close" onclick="closeRating2()">X</button>
+                    </div>
+                </div>
+            <form method="post">
+                {% csrf_token %}
+                <div class="container-r">
+                    <div style="margin-bottom: 10px;">
+                        <label for="rating"><b>Rating:</b></label>
+                        <input type="number" name="property-rating" id="user-rating" min="1" max="5" value="1"><span> star/s</span>
+                    </div>
+                    <label for="review"><b style="margin-top: 20px;">Review:</b></label>
+                    <div style="margin-top: 5px;">
+                        <textarea rows="4" cols="50" name="property-review" id="review" placeholder="Enter Your Review Message Here" style="object-position: bottom;"></textarea>
+                    </div>
+                  <button type="submit" class="rate-button" style="cursor: pointer; margin-top: 20px;">Submit</button>
+                </div>
+              </form>  
+            </div>
+        </div>
+    </main>
+    <div class="profile-container">
+        {% if account.profilePicture %}
+        <img src="{{ account.profilePicture.url }}">
+        {% else %}
+        <img src="{% static 'images/accounticon.png' %}">
+        {% endif %}
+        <ul>
+            <li style="font-size: x-large; margin-top: 10px; margin-bottom: 10px; font-weight: bold;">
+                {{ user.first_name }} {{ user.last_name }}
+            </li>
+            <li>
+                {% if account.is_verified != 0 %}
+                    Verified
+                {% else %}
+                    Unverified
+                {% endif %}
+            </li>
+            <li style="margin-top: 5px;">
+                {{ account.phoneNumber }}
+            </li>
+            <li>
+                {{ user.email }}
+            </li>
+        </ul>
+    </div>
+    </main>
+    <div class="container">
+        <div class="nav-container">
+            <ul>
+                <li style="margin-top: 50px">     
+                    <button class="active" data-content="content1" id="btnnum1">Properties</button>
+                </li>
+                <li>
+                    <button data-content="content2" id="btnnum2">Inquiry Requests</button>
+                </li>
+                <li>
+                    <button data-content="content3" id="btnnum3">Rating & Review</button>
+                </li>
+                <li>
+                    <button data-content="content4" id="btnnum4">Account Verification</button>
+                </li>
+                <li style="margin-top: 70px">
+                    <button data-content="content5" id="btnnum5">Edit Account Information</button>
+                </li> 
+            </ul>
+        </div>
+        <div class="container-content" id="content1" style="display:block">
+            <h1>All Properties</h1>
+            {% for listing in listings %}
+            <a href="#">
+                <img src="{{ listing.primaryImage.url }}">
+                <p>
+                    <span id="description">{{ listing.description }}</span>
+                </p>
+                <p>
+                    Type: <span id="type">{{ listing.type }}</span>
+                </p>
+                <p>
+                    Tenants: <span id="tenant count">{{ tenants_count }}</span>
+                </p>
+                <p>
+                    <span>Rating:</span>
+                    {% if ratingL.rating == none %}
+                    <span>N/A</span>
+                    {% elif ratingL.rating == 1 %}
+                    <span class="stars" title="1 star">★</span><span title="4 nostar">★★★★</span>
+                    {% elif ratingL.rating == 2 %}
+                    <span class="stars" title="2 star">★★</span><span title="3 nostar">★★★</span>
+                    {% elif ratingL.rating == 3 %}
+                    <span class="stars" title="3 star">★★★</span><span title="2 nostar">★★</span>
+                    {% elif ratingL.rating == 4 %}
+                    <span class="stars" title="4 star">★★★★</span><span title="1 nostar">★</span>
+                    {% elif ratingL.rating == 5 %}
+                    <span class="stars" title="5 star">★★★★★</span>
+                    {% endif %}
+                </p>
+                <form method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="delete-listing" value="{{ listing.id }}">
+                    <button type="submit" class="closebtn" onclick="alert('listing successfully removed.')">&times;</button>
+                </form>
+            </a>
+            {% endfor %}
+        </div>
+        <div class="container-content" id="content2">
+            <h1>All Requests</h1>
+            {% for inquiry in requests %}
+            {% if inquiry.to_userID == account %}
+            {% if inquiry.requestStatus == "Pending" %}
+            <a href="#">
+                <img src="{{ inquiry.listingID.primaryImage.url }}">
+                <p>
+                    <span id="discription">{{ inquiry.listingID.description }}</span>
+                </p>
+                <p>
+                    <span title="requestor name">
+                        {% if inquiry.from_userID == all_ratingU.to_userID %} 
+                        {{ all_ratingU.rating }}
+                        <span title="star">★</span>
+                        {% endif %}
+                        {{ inquiry.from_userID.user.first_name }} {{ inquiry.from_userID.user.last_name }}
+                    </span>
+                </p>
+                <p>
+                    <span id="gender">{{ inquiry.from_userID.gender }}</span>
+                </p>
+                <p>
+                    <span title="request type"> Type: {{ inquiry.requestType }}</span>
+                </p>
+                <form method="post">
+                    {% csrf_token %}
+                    <p class="request-button">
+                        <input type="hidden" name="inquiryid" value="{{ inquiry.id }}">
+                        <button type="submit" name="response" value="Accepted">
+                            <img src="{% static 'images/accepticon.png' %}">
+                        </button>
+                        <button type="submit" name="response" value="Rejected">
+                            <img src="{% static 'images/rejecticon.png' %}">
+                        </button>
+                    </p>
+                </form>
+            </a>
+            {% endif %}
+            {% elif inquiry.from_userID == account %}
+            <a href="#">
+                <img src="{{ inquiry.listingID.primaryImage.url }}">
+                <p>
+                    <span id="discription">{{ inquiry.listingID.description }}</span>
+                </p>
+                <p>
+                    <span title="receiver name">
+                        {% if inquiry.from_userID == all_ratingU.to_userID %} 
+                        {{ all_ratingU.rating }}
+                        <span title="star">★</span>
+                        {% endif %}
+                        {{ inquiry.to_userID.user.first_name }} {{ inquiry.to_userID.user.last_name }}
+                    </span>
+                </p>
+                <p>
+                    <span id="gender">{{ inquiry.to_userID.gender }}</span>
+                </p>
+                <p>
+                    <span title="request type">Type: {{ inquiry.requestType }}</span>
+                </p>
+                <p>
+                    <span title="request status">Status: {{ inquiry.requestStatus }}</span>
+                </p>
+            </a>
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div class="container-content" id="content3">
+            <h1>Rating & Review</h1>
+            <h3>To Rate/Review:</h3>
+            {% for tenant in tenants %}
+            <a href="#">
+                {% if tenant.userID.profilePicture %}
+                <img src="{{ tenant.userID.profilePicture.url }}">
+                {% else %}
+                <img src="{% static 'images/accounticon.png' %}">
+                {% endif %}
+                <p>
+                    <span id="fullname">{{ tenant.userID.user.first_name }} {{tenant.userID.user.last_name}}</span>
+                </p>
+                <p>
+                    <span title="aparatment details">{{ tenant.listingID.description }}</span>
+                </p>
+                <p>
+                    Type: <span>{{ tenant.listingID.type }}</span>
+                </p>
+                <p>
+                    <div class="rating-button">
+                        <button type="button" onclick="showRateForm()">
+                            Rate/Review
+                        </button>
+                    </div>
+                </p>
+            </a>
+            {% endfor %}
+            {% for listing in rlisting %}
+            {% if listing %}
+            <a href="#">
+                <img src="{{ listing.primaryImage.url }}">
+                <div>
+                    <p>
+                        <span id="rdescription">{{ listing.description }}</span>
+                    </p>
+                </div>
+                <p>
+                    Price: <span>₱{{ listing.price }}</span>
+                </p>
+                <p>
+                    Type: <span>{{ listing.type }}</span>
+                </p>
+                <p>
+                    <button type="button" onclick="showRateForm2()">
+                            Rate/Review
+                    </button>
+                </p>
+            </a>
+            {% else %}
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div class="container-content" id="content4">
+            <h1>Account Verification</h1>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <p class="upload-id">
+                    <span>Upload your ID here for verification: {{ id_form.as_p }} <button type="submit">Upload</button></span> 
+                </p>
+            </form>
+        </div>
+        <div class="container-content" id="content5">
+            <h1>Edit Account Information</h1>
+            <form method="post">
+                {% csrf_token %}
+                <p class="edit-details">
+                    <span>Phone Number: </span> <input type="number" id="phone-number" name="editPhone" placeholder="{{ account.phoneNumber }}"><button type="submit">Update</button></input> 
+                </p>
+            </form>
+            <form method="post">
+                {% csrf_token %}
+                <p class="edit-details">
+                    <span>Email Address: </span> <input type="text" id="email-address" name="editEmail" placeholder="{{ account.user.email }}"><button type="submit">Update</button></input>
+                </p>
+            </form>
+            <p class="edit-details">
+                <form type="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ pic_form }}
+                    <button type="submit"><input type="hidden" name="dp" value="dp">Update</button>
+                </form>
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+

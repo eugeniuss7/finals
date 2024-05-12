@@ -1,0 +1,134 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+}
+
+.create-listing-container {
+    max-width: 500px;
+    margin: auto;
+    background: white;
+    border-radius: 10px;
+}
+
+.listing-form .form-section{
+    border: none;
+    align-self: center;
+    margin: 10px;
+    justify-content: space-between;
+    display: flex;
+}
+
+.listing-form .form-section label{
+    justify-content: center;
+    align-self: center;
+    margin-right: 20px;
+}
+h2, h3 {
+    color: #009193;
+    margin-left: 10px;
+}
+
+.form-section {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="tel"],
+input[type="checkbox"],
+.select-dropdown {
+    width: 95%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    margin-right: 5px;
+}
+
+
+.image-upload {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.add-image {
+    padding: 10px;
+    background-color: #e0e0e0;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    border-radius: 5px;
+    width: 50px;
+    height: 50px;
+    margin-left: 20px;
+}
+
+.amenities-feature input[type=checkbox]{
+    align-self: flex-start;
+    width: 20px;
+}
+
+.amenities-feature label{
+    align-self: flex;
+}
+
+.amenities-feature-section{
+    columns: 3;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #009193;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.submit-btn:hover{
+    background-color: teal;
+}
+
+/* Add any additional styles for spacing, layout, and responsive design */
+
+.form-header {
+    background-color: #009193; /* Teal color */
+    color: white;
+    padding: 5px;
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.form-header .logo {
+    max-width: 70px; /* Adjust as needed */
+    height: auto;
+}
+
+.share-with-tenants {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+}
+
+.share-with-tenants input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+/* Styling the text next to the checkbox */
+.share-with-tenants label {
+    color: #333;
+    font-size: 0.9em; /* Adjust the size as needed */
+}

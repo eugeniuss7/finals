@@ -1,0 +1,37 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - CribConnect</title>
+    <link rel="stylesheet" href="{% static 'ccapp/createaccount.css' %}">
+</head>
+<body>
+    <div class="account-container">
+        <div class="account-header">
+            <img src="{% static 'images/cribconnect.png' %}" alt="CribConnect Logo"> <!-- Replace with your logo's file path -->
+            <h2>Create Account</h2>
+        </div>
+        <form class="account-form" method="post" autocomplete="off" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="text" id="first_name" name="first_name" placeholder="First Name" required>
+            <input type="text" id="last_name" name="last_name" placeholder="Last Name" required>
+            <span>Gender: </span><select id="gender" name="gender" placeholder="Gender", style="margin-bottom: 10px;" required>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+            <input type="number" id="age" name="age" placeholder="Age" required>
+            <input type="number" id="phoneNumber" name="phoneNumber" placeholder="Phone Number" required>
+            <input type="email" id="email" name="email" placeholder="Email" required>
+            <div>
+                {{ form }}
+            </div>
+            <div style="column-count: 2;">
+                <input type="checkbox" id="is_landowner" name="is_landowner" value="True" style="transform: translate(-47%);"><p style="transform: translate(-94%);">Landowner</p>
+            </div>
+            <button type="submit" class="submit-button">Submit</button>
+        </form>
+    </div>
+</body> 
+</html>

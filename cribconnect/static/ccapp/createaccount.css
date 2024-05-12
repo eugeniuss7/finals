@@ -1,0 +1,55 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.account-container {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 350px;
+}
+
+.account-header {
+    background-color: #009193; /* Teal color */
+    color: white;
+    padding: 20px;
+    border-radius: 5px 5px 0 0;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.account-header img {
+    max-width: 100px; /* Adjust as per your logo's dimensions */
+}
+
+.account-header h2 {
+    margin-top: 10px;
+}
+
+.account-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.submit-button {
+    width: 100%;
+    padding: 10px;
+    background: #00bcd4;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
